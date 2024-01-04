@@ -44,7 +44,7 @@ namespace TrueRogueliike.Components
             }
         }
 
-        public static void Attack(Player player)
+        public void Attack(Player player)
         {
             player.TakeDamage(10);
         }

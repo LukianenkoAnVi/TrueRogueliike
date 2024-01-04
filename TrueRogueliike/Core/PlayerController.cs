@@ -6,9 +6,8 @@ namespace TrueRogueliike.Core
 
     public class PlayerController
     {
-        private readonly Player _player;
 
-        private readonly Dictionary<ConsoleKey, VectorPosition> _directions = new()
+        private static readonly Dictionary<ConsoleKey, VectorPosition> _directions = new()
         {
             {ConsoleKey.W, new VectorPosition(0, -1)},
             {ConsoleKey.S, new VectorPosition(0, 1)},
@@ -16,16 +15,12 @@ namespace TrueRogueliike.Core
             {ConsoleKey.D, new VectorPosition(1, 0)}
         };
 
-        public PlayerController(Player player)
-        {
-            _player = player;
-        }
 
-        public void Update(ConsoleKey key)
+        public static void Update(ConsoleKey key, Player player)
         {
             VectorPosition direction = _directions.TryGetValue(key, out var dir) ? dir : new VectorPosition(0, 0);
 
-            _player.Move(direction);
+            player.Move(direction);
         }
     }
 }

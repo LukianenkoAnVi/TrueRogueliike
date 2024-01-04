@@ -1,16 +1,16 @@
-﻿namespace TrueRogueliike.Core
+﻿using TrueRogueliike.Components;
+
+namespace TrueRogueliike.Core
 {
     public class GameLoop
     {
         private readonly GameScene _scene;
-        private readonly PlayerController _playerController;
-        private readonly GameUpdater _gameUpdater;
+        private readonly Player _player;
 
-        public GameLoop(GameScene scene, PlayerController playerController)
+        public GameLoop(GameScene scene, Player player)
         {
             _scene = scene;
-            _playerController = playerController;
-            _gameUpdater = new GameUpdater(_scene);
+            _player = player;
         }
 
         public void Run()
@@ -30,9 +30,9 @@
                         isRunning = false;
                     }
 
-                    _playerController.Update(keyInfo.Key);
+                    PlayerController.Update(keyInfo.Key, _player);
+                    GameUpdater.Update(ref isRunning, _scene);
 
-                    _gameUpdater.Update(ref isRunning);
                     GameRenderer.Render(_scene);
                 }
             }

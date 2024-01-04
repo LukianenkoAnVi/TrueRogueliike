@@ -14,9 +14,8 @@ class Program
         GameScene scene = new(width, height, factory, random); 
 
         Player player = factory.CreatePlayer(new VectorPosition(1, 1), scene);
-        PlayerController playerController = new(player);
 
-        GameLoop gameLoop = new(scene, playerController); 
+        GameLoop gameLoop = new(scene, player); 
         
         gameLoop.Run(); 
     }

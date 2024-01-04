@@ -5,18 +5,9 @@ namespace TrueRogueliike.Core
 {
     public class GameUpdater
     {
-        private readonly IGameSceneEditor _scene;
-        private bool _levelCompleted = false;
-
-        public GameUpdater(IGameSceneEditor scene)
+        public static void Update(ref bool isRunning, IGameSceneEditor scene)
         {
-            _scene = scene;
-        }
-
-        public void Update(ref bool isRunning)
-        {
-            var toRemove = new List<GameObject>();
-            var gameObjectsCopy = new List<GameObject>(_scene.GameObjects);
+            var gameObjectsCopy = new List<GameObject>(scene.GameObjects);
 
             foreach (var gameObject in gameObjectsCopy)
             {
@@ -24,7 +15,7 @@ namespace TrueRogueliike.Core
 
                 if (gameObject is GameEnemy enemy && enemy.Health < 1)
                 {
-                    toRemove.Add(enemy);
+                    scene.RemoveGameObject(enemy);
                 }
 
                 if (gameObject is Player player)
@@ -34,22 +25,11 @@ namespace TrueRogueliike.Core
                         isRunning = false;
                     }
 
-                    if (player.Position.X == _scene.Width - 2 && player.Position.Y == _scene.Height - 2)
+                    if (player.Position.X == scene.Width - 2 && player.Position.Y == scene.Height - 2)
                     {
-                        _levelCompleted = true;
+                        scene.Finished();
                     }
                 }
-            }
-
-            foreach (var gameObject in toRemove)
-            {
-                _scene.RemoveGameObject(gameObject);
-            }
-
-            if (_levelCompleted)
-            {
-                _scene.Finished();
-                _levelCompleted = false;
             }
         }
     }
